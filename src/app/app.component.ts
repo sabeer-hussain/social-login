@@ -19,9 +19,11 @@ export class AppComponent implements OnInit {
         alert("login success");
         console.log(user);
         this.apiCall.loginWithGoogle(user).subscribe({
-          next: (data) => {
+          next: (data: any) => {
             console.log("data from backend");
             console.log(data);
+            this.token = data['jwtToken'];
+            console.log(this.token);
           },
           error: (error) => {
             console.log("error from backend");
@@ -38,5 +40,31 @@ export class AppComponent implements OnInit {
       }
     })
   }
+
+  getUsers() {
+    this.apiCall.getUsers(this.token).subscribe({
+      next: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.log(error);
+        
+      }
+    })
+  }
+
+  getProducts() {
+    this.apiCall.getProducts(this.token).subscribe({
+      next: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.log(error);
+        
+      }
+    })
+  }
+
   title = 'social-login';
+  token = '';
 }
